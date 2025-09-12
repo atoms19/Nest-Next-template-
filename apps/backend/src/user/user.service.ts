@@ -21,11 +21,18 @@ export class UserService {
 	}
 
 	findOne(id: number) {
-		return this.db.select().from(users).where(eq(users.id, id)).limit(1);
+
 	}
 
 	update(id: number, updateUserDto: UpdateUserDto) {
 		return `This action updates a #${id} user`;
+	}
+	async findByEmail(email: string) {
+		  return await this.db.select().from(users).where(eq(users.email, email)).limit(1)
+   }
+
+	async getPassword(id: number) {
+	//	let [user] = await this.db.select({ password: users.password_hash }).from(users).where(eq(users.id, id)).limit(1)
 	}
 
 	remove(id: number) {
