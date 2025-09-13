@@ -1,14 +1,14 @@
-import { MessageBox } from "./components/messageBox";
-import { TanstackProvider } from "./components/tanstackProvider"
+import { Navbar } from "./components/landing/navbar";
+// import { Hero } from "./components/landing/hero";
+// import { Features } from "./components/landing/features";
+// import { Cta } from "./components/landing/cta";
+// import { Footer } from "./components/landing/footer";
 
 export default function Home() {
-	return (
-		<div>
-		  <h1>Welcome to my app!</h1>
-		  <TanstackProvider>
-		  <MessageBox/>
-		  </TanstackProvider>
-			<p>This is the home page.</p>
-		</div>
-	);
+  return (
+    <div className="">
+      <Navbar />
+      <main></main>
+    </div>
+  );
 }

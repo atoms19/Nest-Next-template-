@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DbModule } from './db/db.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
-import { PostsModule } from './posts/posts.module';
+import { UploadModule } from './upload/upload.module';
 @Module({
   imports: [
     UserModule,
@@ -14,7 +14,7 @@ import { PostsModule } from './posts/posts.module';
       isGlobal: true,
     }),
     AuthModule,
-    PostsModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [],

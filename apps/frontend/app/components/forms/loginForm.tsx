@@ -12,11 +12,16 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
-  email: z.email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  email: z.email("Invalid email address"),
+	password: z.string().min(6, "Password must be at least 6 characters"),
 });
+
+
 
 type LoginValues = z.infer<typeof loginSchema>;
 
@@ -29,8 +34,36 @@ export function LoginForm() {
     },
   });
 
+  const router = useRouter();
+
+  const loginMutation =useMutation({
+	 mutationFn:async (data:LoginValues)=>{
+		const res= await fetch('/api/auth/login',{
+	 			method:'POST',
+			headers:{
+				'Content-Type':'application/json'
+			},
+			body:JSON.stringify(data)
+		})
+		if(!res.ok){
+			throw new Error('Login failed');
+		}
+	 return res.json();
+	 }
+	 ,
+    onSuccess:(data)=>{
+			toast("Login successful:" + JSON.stringify(data));
+			router.push('/dashboard');
+		}
+	 ,
+	 onError:(error)=>{
+			toast("Login failed:" + error);
+	 }
+		  
+  })
+
   function onSubmit(values: LoginValues) {
-    console.log("Login attempt:", values);
+	 loginMutation.mutate(values)
   }
 
   return (
@@ -57,7 +90,7 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
+                <Input type="password" placeholder="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
