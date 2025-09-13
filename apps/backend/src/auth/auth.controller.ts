@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
 import type { Response } from 'express';
@@ -27,7 +27,7 @@ export class AuthController {
 		  return res.send({message:'login successful'});
   }
 
-  @Post('logout')
+  @Get('logout')
   async logout(@Res() res:Response){
 	 res.clearCookie('access_token')
 	 res.clearCookie('refresh_token')
@@ -35,5 +35,9 @@ export class AuthController {
 	return res.send({message:'logged out'})
   }
 
+  @Post('verify')
+  async verifyToken(@Body('token') token:string){
+	  return this.authService.verifyToken(token)
+	}
 
 }

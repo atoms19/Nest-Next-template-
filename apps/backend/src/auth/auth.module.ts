@@ -20,7 +20,7 @@ import { AuthGuard } from './auth.guard';
   }),
   inject:[ConfigService]
   })],
-  exports:[AuthGuard,AuthService],
+  exports:[AuthGuard,AuthService,JwtModule],
   controllers: [AuthController],
   providers: [AuthService, SessionService,AuthGuard],
 })

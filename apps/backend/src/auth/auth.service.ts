@@ -31,4 +31,13 @@ export class AuthService {
 			})
 		}
 	}
+
+	async verifyToken(token: string) {
+	  		try {
+			let payload = this.jwtService.verify(token);
+			return payload;
+		} catch (e) {
+			throw new UnauthorizedException('invalid token')
+		}
+	}
 }

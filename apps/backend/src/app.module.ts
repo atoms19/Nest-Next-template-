@@ -5,25 +5,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DbModule } from './db/db.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
-
+import { PostsModule } from './posts/posts.module';
 @Module({
   imports: [
     UserModule,
-    DbModule,
-	 JwtModule.registerAsync({
-   imports:[ConfigModule],
-   useFactory: async (configService:ConfigService) => ({
-     secret: configService.get<string>('JWT_SECRET'),
-	  signOptions:{
-		 expiresIn:'15m'
-		}
-  }),
-  inject:[ConfigService]
-  }),
+    DbModule,	
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     AuthModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [],
