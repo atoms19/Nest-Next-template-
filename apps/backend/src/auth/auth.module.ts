@@ -6,6 +6,7 @@ import { UserModule } from 'src/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SessionService } from './session/session.service';
+import { AuthGuard } from './auth.guard';
 
 
 @Module({
@@ -19,7 +20,8 @@ import { SessionService } from './session/session.service';
   }),
   inject:[ConfigService]
   })],
+  exports:[AuthGuard,AuthService],
   controllers: [AuthController],
-  providers: [AuthService, SessionService],
+  providers: [AuthService, SessionService,AuthGuard],
 })
 export class AuthModule {}
