@@ -7,10 +7,14 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -35,13 +39,17 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
   }
+
+  @Patch('avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  updateAvatar(@UploadedFile() file: Express.Multer.File) {
+	 this.userService.updateProfilePicture(file.buffer,file.originalname) 
+	 return {
+		message:"avatar update successful"
+	 } 
+	}
 }
